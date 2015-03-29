@@ -1,10 +1,29 @@
-<h1>{{ question.question_text }}</h1>
+{# Load the tag library #}
+{% load bootstrap3 %}
 
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+<div class="col-xs-8">
+
+<h1>{{ question.question_text }}</h1>
+<br>
 <ul>
 {% for choice in question.choice_set.all %}
     <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
 {% endfor %}
 </ul>
 
-<a href="{% url 'polls:detail' question.id %}">Vote again?</a><br/>
-<a href="{% url 'polls:index' %}">Go back to polls index.</a>
+{% buttons %}
+<br>
+<button type="button" class="btn btn-md btn-warning"><a href="{% url 'polls:detail' question.id %}">Vote again</a></button>
+<button type="button" class="btn btn-md btn-success"><a href="{% url 'polls:index' %}">Take another poll</a></button>
+
+{% endbuttons %}
+
+</div>

@@ -1,19 +1,36 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+<div class="col-xs-8">
+
 <h1>{{ question.question_text }}</h1>
 {% if error_message %}<p>
 <strong>{{ error_message }}</strong>
 </p>
 {% endif %}
-
-<p>Take the poll!</p>
-
-<form action="{% url 'polls:vote' question.id %}" method="post">
-	{% csrf_token %}
-	{% for choice in question.choice_set.all %}
-		<input type="radio" name="choice" id="choice{{ forloop.counter }}"
-	value="{{ choice.id }}" />
-		<label for="choice{{ forloop.counter }}">{{ choice.choice_text }}
-</label><br />
-{% endfor %}
 <br>
-<input type="submit" value="Vote" />
-</form>
+<div class="col-xs-12">
+	<p>Please choose from the following:</p>
+
+	<form action="{% url 'polls:vote' question.id %}" method="post">
+		{% csrf_token %}
+		{% for choice in question.choice_set.all %}
+			<input type="radio" name="choice" id="choice{{ forloop.counter }}"
+		value="{{ choice.id }}" />
+			<label for="choice{{ forloop.counter }}">{{ choice.choice_text }}
+	</label><br />
+	{% endfor %}
+	<br>
+
+	<input type="submit" value="Vote" class="btn btn-md btn-success"/>
+	</form>
+	</div>
+</div>

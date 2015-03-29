@@ -1,6 +1,20 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
 {% if latest_question_list %}
+
+<div class="col-xs-8">
+
     <ul>
-    	<p><b>Here are the poll questions!</b></p>
+    	<h1><b>Polls</b></h2>
+    	<p>Here's a list of the latest polls!</p>
     {% for question in latest_question_list %}
     <!--  Link back to the question Detail page -->
     <!--  'polls:' is included because of the polls namespacing in polltutorial > urls.py -->
@@ -8,5 +22,7 @@
     {% endfor %}
     </ul>
 {% else %}
-    <p>No polls are available.</p>
+    <p>Sorry, no polls are available today.</p>
 {% endif %}
+
+</div>
