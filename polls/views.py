@@ -27,7 +27,7 @@ class IndexView(generic.ListView):
    		return Question.objects.order_by('-pub_date')[:5]
 
 
-# By default, DetailView uses the template <app name>/<model name>_detail.html 
+# By default, DetailView uses the template <app name>/<model name>_detail.html
 # aka: polls/question_detail.html
 
 class DetailView(generic.DetailView):
@@ -39,7 +39,7 @@ class ResultsView(generic.DetailView):
     template_name = 'polls/results.html'
 
 # request.POST is a dictionary-like object that lets you access data by a key name
-# In this case, request.POST['choice'] returns the ID of the selected choice, as a string. 
+# In this case, request.POST['choice'] returns the ID of the selected choice, as a string.
 # request.POST values are always strings.
 def vote(request, question_id):
 		p = get_object_or_404(Question, pk=question_id)
