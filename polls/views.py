@@ -27,7 +27,7 @@ class IndexView(generic.ListView):
    		return Question.objects.order_by('-pub_date')[:5]
 
 
-# By default, uses the template <app name>/<model name>_detail.html 
+# By default, DetailView uses the template <app name>/<model name>_detail.html 
 # aka: polls/question_detail.html
 
 class DetailView(generic.DetailView):
@@ -38,17 +38,26 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
 
-
+# request.POST is a dictionary-like object that lets you access data by a key name
+# In this case, request.POST['choice'] returns the ID of the selected choice, as a string. 
+# request.POST values are always strings.
 def vote(request, question_id):
 		p = get_object_or_404(Question, pk=question_id)
 		try:
-			selected_choice = p.choice_set.get(pk=request.POST['choice'])
+				selected_choice = p.choice_set.get(pk=request.POST['choice'])
+
+		# Raise a KeyError if choice not found
 		except (KeyError, Choice.DoesNotExist):
-			return render(request, 'polls/detail.html', {
-				'question': p,
-				'error_message': "You didn't select a choice.",
-			})
+				return render(request, 'polls/detail.html', {
+					'question': p,
+					'error_message': "You didn't select a choice.",
+				})
+		# Otherwise, if no KeyError, increment the choice count
 		else:
-			selected_choice.votes += 1
-			selected_choice.save()
-			return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
+				selected_choice.votes += 1
+				selected_choice.save()
+		# And then return an HttpResponseRedirect. 
+		# (Always return an HttpResponseRedirect after successfully dealing with POST data) 
+		# HttpResponseRedirect takes a single argument: 
+		# the URL to which the user will be redirected
+				return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))

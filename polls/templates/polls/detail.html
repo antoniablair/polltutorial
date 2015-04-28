@@ -20,9 +20,13 @@
 <div class="col-xs-12">
 	<p>Please choose from the following:</p>
 
+	<!-- . Whenever you create a form that alters data server-side, use method post -->
 	<form action="{% url 'polls:vote' question.id %}" method="post">
+		<!--  All POST forms that are targeted at internal URLs should use the {% csrf_token %} template tag. -->
 		{% csrf_token %}
 		{% for choice in question.choice_set.all %}
+		<!-- When user selects a radio button and submits the form, 
+		it will send POST data choice=#, where # is ID of selected choice  -->
 			<input type="radio" name="choice" id="choice{{ forloop.counter }}"
 		value="{{ choice.id }}" />
 			<label for="choice{{ forloop.counter }}">{{ choice.choice_text }}
